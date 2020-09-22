@@ -12,7 +12,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Controller
 public class SlackAppController {
     @PostMapping(
-            value = "test",
+            value = "/",
             produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public JSONObject uplevelOrgEncryption(
