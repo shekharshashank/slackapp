@@ -31,6 +31,15 @@ class DemoApplicationTests {
   }
 
   @Test
+  void queryUrlsTest() throws IOException, ParseException {
+    JSONParser parser = new JSONParser();
+    Reader reader = new FileReader("/Users/shashshe/workspace/slackapp/src/test/resources/testEventWithUrl.json");
+    JSONObject jsonObject = (JSONObject) parser.parse(reader);
+    urlManager.processAndAddUrl(jsonObject);
+//    urlManager.sendUrlsSlackMessage(Arrays.asList("test1.com", "test2.com"));
+  }
+
+  @Test
   void testGetUrls() throws IOException, ParseException {
     JSONParser parser = new JSONParser();
     Reader reader = new FileReader("/Users/shashshe/workspace/slackapp/src/test/resources/testEventWithUrl.json");
