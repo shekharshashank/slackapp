@@ -3,6 +3,8 @@ package com.slackapp.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.slackapp.slackappservice.UrlManager;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +22,19 @@ public class SlackAppController {
             value = "/events",
             produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public JSONObject uplevelOrgEncryption(
-            @RequestBody JSONObject request) throws JsonProcessingException {
+    public JSONObject slackAppPost(
+            @RequestBody String request) throws JsonProcessingException, ParseException {
         System.out.println("request = "+request);
-        String requestType= (String)request.get("type");
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) parser.parse(request);
+
+        String requestType= (String)jsonObject.get("type");
         JSONObject obj = new JSONObject();
         if(requestType!=null && requestType.equalsIgnoreCase("url_verification")){
-            obj.put("challenge", request.get("challenge"));
+            obj.put("challenge", jsonObject.get("challenge"));
 
         }else{
-            urlManager.processAndAddUrl(request);
+            urlManager.processAndAddUrl(jsonObject);
         }
         System.out.println("response = "+obj);
         return obj;
