@@ -18,7 +18,9 @@ import java.util.*;
 public class UrlManager {
   static Map<String, List<String>> sharedUrlMap;
   private static final String hook =
-      "https://hooks.slack.com/services/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";
+//      "https://hooks.slack.com/services/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";
+  "https://hooks.slack.com/services/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";
+
   private static final String appMention = "U01AF3PB8PR";
 
   public List<String> urlList(String channelName) {
@@ -26,6 +28,9 @@ public class UrlManager {
   }
 
   public void processAndAddUrl(JSONObject message) throws JsonProcessingException {
+    if (sharedUrlMap == null) {
+      sharedUrlMap = new HashMap<>();
+    }
     Object ev = message.get("event");
     JSONObject eventJsonObject = (JSONObject) ev;
     String eventType = (String) eventJsonObject.get("type");
@@ -37,9 +42,7 @@ public class UrlManager {
         return;
       }
     }
-    if (sharedUrlMap == null) {
-      sharedUrlMap = new HashMap<>();
-    }
+
     List<String> urls = extractUrlsFromJson(message);
         sharedUrlMap.getOrDefault((String) eventJsonObject.get("channel"), new ArrayList<>());
 //    urls.add("test-url");
