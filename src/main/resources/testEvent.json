@@ -1,0 +1,42 @@
+{
+  "authed_users": ["U01AF3PB8PR"],
+  "event_id": "Ev021BG382AC",
+  "authorizations": [{
+    "enterprise_id": null,
+    "team_id": "T01B8E3LXUH",
+    "user_id": "U01AF3PB8PR",
+    "is_bot": true,
+    "is_enterprise_install": false
+  }],
+  "api_app_id": "A01AP3QTTU6",
+  "team_id": "T01B8E3LXUH",
+  "event": {
+    "client_msg_id": "cd76c2aa-3476-451d-a35f-f53c56b09a52",
+    "type": "app_mention",
+    "text": "<@U01AF3PB8PR> urls",
+    "user": "U01ASNDBW77",
+    "ts": "1619868895.001000",
+    "team": "T01B8E3LXUH",
+    "blocks": [{
+      "type": "rich_text",
+      "block_id": "atCC",
+      "elements": [{
+        "type": "rich_text_section",
+        "elements": [{
+          "type": "user",
+          "user_id": "U01AF3PB8PR"
+        }, {
+          "type": "text",
+          "text": " urls"
+        }]
+      }]
+    }],
+    "channel": "C01BKLHGZNC",
+    "event_ts": "1619868895.001000"
+  },
+  "type": "event_callback",
+  "event_context": "1-app_mention-T01B8E3LXUH-C01BKLHGZNC",
+  "is_ext_shared_channel": false,
+  "event_time": 1619868895,
+  "token": "QURRwV1VYN3OZgoYfDThJoWL"
+}
