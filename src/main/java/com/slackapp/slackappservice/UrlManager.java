@@ -28,22 +28,25 @@ public class UrlManager {
   }
 
   public void processAndAddUrl(JSONObject message) throws JsonProcessingException {
+    System.out.println("urls for channel is :::  "+(sharedUrlMap==null?"":sharedUrlMap.get("C01BKLHGZNC")));
+
     if (sharedUrlMap == null) {
       sharedUrlMap = new HashMap<>();
     }
     Object ev = message.get("event");
     JSONObject eventJsonObject = (JSONObject) ev;
+    String channel = (String) eventJsonObject.get("channel");
     String eventType = (String) eventJsonObject.get("type");
     String text = (String) eventJsonObject.get("text");
     if (eventType.equalsIgnoreCase("app_mention")) {
       if (text.contains(appMention)) {
         sendUrlsSlackMessage(
-            sharedUrlMap.getOrDefault((String) eventJsonObject.get("channel"), new ArrayList<>()));
+            sharedUrlMap.getOrDefault(channel, new ArrayList<>()));
         return;
       }
     }
 
-    List<String> urls = extractUrlsFromJson(message);
+    List<String> urls = extractUrlsFromJson(message,channel);
         sharedUrlMap.getOrDefault((String) eventJsonObject.get("channel"), new ArrayList<>());
 //    urls.add("test-url");
     sharedUrlMap.put((String) eventJsonObject.get("channel"), urls);
@@ -60,12 +63,11 @@ public class UrlManager {
     Map<String, String> urlMap = new HashMap<>();
     String urlsStr = StringUtils.join(urls, '\n');
     urlMap.put("text", urlsStr);
-
     HttpEntity requestEntity = new HttpEntity(mapper.writeValueAsString(urlMap), headers);
     restTemplate.exchange(hook, HttpMethod.POST, requestEntity, String.class);
   }
 
-  public List<String> extractUrlsFromJson(JSONObject message){
+  public List<String> extractUrlsFromJson(JSONObject message, String channel){
     JSONArray blocks =(JSONArray) ((JSONObject)message.get("event")).get("blocks");
     JSONArray elements= new JSONArray();
     for(int i=0; i< blocks.size(); i++){
@@ -80,7 +82,7 @@ public class UrlManager {
         elementsInner = (JSONArray)((JSONObject)elements.get(j)).getOrDefault("elements", new JSONArray());
       }
     }
-    List<String> urls = new ArrayList<>();
+    List<String> urls = sharedUrlMap.getOrDefault(channel, new ArrayList<>());
     for(int k=0; k< elementsInner.size(); k++){
       JSONObject elmInnerNode  =  (JSONObject)elementsInner.get(k);
       if(elmInnerNode.getOrDefault("type","").equals("link")){
