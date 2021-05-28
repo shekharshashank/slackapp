@@ -26,8 +26,8 @@ public class UrlManager {
   }
 
   public void processAndAddUrl(JSONObject message) throws JsonProcessingException {
-    JSONObject eventJsonObject = (JSONObject)message.get("event");
-//    LinkedHashMap eventJsonObject = (LinkedHashMap) ev;
+    Object ev = message.get("event");
+    LinkedHashMap eventJsonObject = (LinkedHashMap) ev;
     String eventType = (String) eventJsonObject.get("type");
     String text = (String) eventJsonObject.get("text");
     if (eventType.equalsIgnoreCase("app_mention")) {
@@ -63,7 +63,7 @@ public class UrlManager {
   }
 
   public List<String> extractUrlsFromJson(JSONObject message){
-    JSONArray blocks =(JSONArray) ((JSONObject)message.get("event")).get("blocks");
+    JSONArray blocks =(JSONArray) ((LinkedHashMap)message.get("event")).get("blocks");
     JSONArray elements= new JSONArray();
     for(int i=0; i< blocks.size(); i++){
       if(((JSONObject)blocks.get(i)).getOrDefault("type","").equals("rich_text")){
